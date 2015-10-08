@@ -8,10 +8,3 @@ Contact:
 Kaylee
 https://www.linkedin.com/in/kayleemoser
 
-Goals:
-[ ] Program takes in participator's names as arguments
-[ ] Test for corner cases
-[ ] Brainstorm for better algorithm
-[ ] Add email capabilities (program automatically sends email to recipients of who they have)
-[ ] Web app? (Create web page where people sign up their group and then everyone signs on to find out who they get)
-[ ] Phone app?
