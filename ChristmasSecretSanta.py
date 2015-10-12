@@ -12,16 +12,14 @@ random.shuffle(receivers)
 
 # Loop through and make sure no one has themselves.
 for i in range(0,len(givers)):
-    if givers[i] == receivers[i]:
-        if i == len(givers)-1:
-            temp = receivers[i]
+    if (givers[i] == receivers[i]):
+        if (i == len(givers)-1):
             receivers[i] = receivers[0]
-            receivers[0] = temp
+            receivers[0] = givers[i]
         else:
-            temp = receivers[i+1]
-            receivers[i+1] = receivers[i]
-            receivers[i] = temp
-        
+            receivers[i] = receivers[i+1]
+            receivers[i+1] = givers[i]
+
 # Print files named after who is the giver.
 for person in range(0,len(givers)):
     f = open(givers[person]+'.txt', 'w')
