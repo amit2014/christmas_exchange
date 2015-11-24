@@ -5,11 +5,6 @@ import random
 import csv
 import getpass
 
-#####NOTES######
-# if using gmail, need to sign on to your account and allow
-# less secure apps to send mail
-# https://myaccount.google.com/security
-################
 
 # this code is a modified version of gmail python code found at
 # http://stackoverflow.com/questions/10147455/trying-to-send-email-gmail-as-mail-provider-using-python
@@ -44,9 +39,12 @@ def main():
     # Variable definitions
     emails = {}
     givers = []
+
+    # Get csv file from user
+    csvname = raw_input("Please enter the name (including path) of CSV file: ")
     
     # Parse CSV (get emails as dict and names as list)
-    with open('participants.csv') as csvfile:
+    with open(csvname) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             if row['Name'] is not '':
