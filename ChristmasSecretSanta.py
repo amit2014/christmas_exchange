@@ -34,6 +34,20 @@ def send_email(user, pwd, recipient, subject, body):
         print "Failed to sent email to {}".format(recipient)
         return False
 
+def print_to_file(giver, msg):
+    print "Information stored in %s.txt. Please send at a later time" % giver
+    f = open(giver+'.txt', 'w') 
+    f.write(msg)
+    f.close()
+ 
+# this code is from a stackoverflow answer
+# http://stackoverflow.com/questions/3041986/python-command-line-yes-no-input
+def yn_choice(message, default='y'):
+    choices = 'Y/n' if default.lower() in ('y', 'yes') else 'y/N'
+    choice = raw_input("%s (%s) " % (message, choices))
+    values = ('y', 'yes', '') if default == 'y' else ('y', 'yes')
+    return choice.strip().lower() in values
+
 
 def main():
     # Variable definitions
@@ -66,21 +80,34 @@ def main():
             else:
                 receivers[i] = receivers[i+1]
                 receivers[i+1] = givers[i]
-    
+
     # Get program user's email and password to send emails to participants
     user_email = raw_input("Please enter your gmail: ")
     password = getpass.getpass("Password: ")
-    
+   
+    # If user chooses, create string for checking by third party
+    yn_ans = yn_choice("Do you want a 3rd party checker? ")
+    if yn_ans:
+        checker_email = raw_input("Please enter the third party checker's email: ")
+        checker_msg = ""
+
     # Email users their person they are giving
     for person in range(len(givers)):
+        message = "You are giving a gift to %s" % receivers[person]
         if (givers[person] in emails):
-            message = "You are giving a gift to %s" % receivers[person]
             if not send_email(user_email, password, emails[givers[person]], "Secret Santa", message):
                 print "Email failed for %s's email %s" % (givers[person], emails[givers[person]])
-                print "Information stored in %s.txt. Please send at a later time" % givers[person]
-                f = open(givers[person]+'.txt', 'w') 
-                f.write(message)
-                f.close()
+                print_to_file(givers[person], message)
+        else:
+            print "%s email does not match." % givers[person]
+            print_to_file(givers[person], message)
+        message = "%s is giving a gift to %s" % (givers[person], receivers[person])
+        checker_msg += (message+"\n")
+
+    if yn_ans:
+        print "\nSending email to third party checker for sanity"
+        send_email(user_email, password, checker_email, "Please check that there is nothing wrong!", checker_msg)
+
                 
 
 if (__name__ == '__main__'):
